@@ -11,6 +11,7 @@ jobs:
         repository: 'corosync/corosync-qdevice'
         ref: 'v3.0.3'
         path: 'src'
+        fetch-depth: 0
     - uses: vmactions/freebsd-vm@v1
       with:
         usesh: true
@@ -26,7 +27,7 @@ jobs:
           ./configure --disable-systemd --prefix=/opt/corosync-qdevice
           gmake clean
           gmake all
-          gmake install DESTDIR=../build
+          gmake install DESTDIR=/home/runner/work/corosync-qdevice-freeBSD/corosync-qdevice-freeBSD/build
           ls -al /opt/corosync-qdevice
           ls -al ../build
     - uses: actions/upload-artifact@v4
