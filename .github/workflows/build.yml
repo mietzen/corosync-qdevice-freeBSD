@@ -19,10 +19,15 @@ jobs:
           git checkout v3.0.3
           export MAKE=gmake
           ./autogen.sh
-          ./configure --disable-systemd --prefix=/opt/corosync-qdevice
+          ./configure \
+            --disable-systemd \
+            --disable-qdevices \
+            --enable-install-qnetd-in-sbin \
+            --sbindir=/opt/corosync-qnetd/bin \
+            --docdir=/opt/corosync-qnetd
           gmake clean
           gmake all
-          gmake install DESTDIR=/home/runner/work/corosync-qdevice-freeBSD/corosync-qdevice-freeBSD/build
+          gmake install DESTDIR=$(realpath ../build)
     - uses: actions/upload-artifact@v4
       with:
         name: corosync-qdevice
