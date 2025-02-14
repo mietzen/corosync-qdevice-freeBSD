@@ -6,12 +6,6 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        repository: 'corosync/corosync-qdevice'
-        ref: 'v3.0.3'
-        path: 'src'
-        fetch-depth: 0
     - uses: vmactions/freebsd-vm@v1
       with:
         usesh: true
@@ -19,18 +13,17 @@ jobs:
         prepare: |
           pkg install -y git bash autoconf automake gmake gcc pkgconf libtool nss corosync3
         run: |
-          mkdir -p /opt/corosync-qdevice
           mkdir build
+          git clone https://github.com/corosync/corosync-qdevice.git src
           cd src
+          git checkout v3.0.3
           export MAKE=gmake
           ./autogen.sh
           ./configure --disable-systemd --prefix=/opt/corosync-qdevice
           gmake clean
           gmake all
           gmake install DESTDIR=/home/runner/work/corosync-qdevice-freeBSD/corosync-qdevice-freeBSD/build
-          ls -al /opt/corosync-qdevice
-          ls -al ../build
     - uses: actions/upload-artifact@v4
       with:
         name: corosync-qdevice
-        path: /opt/corosync-qdevice
+        path: build
