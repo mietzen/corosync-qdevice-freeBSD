@@ -18,16 +18,18 @@ jobs:
         prepare: |
           pkg install -y git bash autoconf automake gmake gcc pkgconf libtool nss corosync3
         run: |
+          mkdir -p /opt/corosync-qdevice
           mkdir build
-          cd ./src
+          cd src
           export MAKE=gmake
           ./autogen.sh
-          ./configure --disable-systemd --prefix=../build
+          ./configure --disable-systemd --prefix=/opt/corosync-qdevice
           gmake clean
           gmake all
-          cd ../build
-          ls -al
+          gmake install DESTDIR=../build
+          ls -al /opt/corosync-qdevice
+          ls -al ../build
     - uses: actions/upload-artifact@v4
       with:
         name: corosync-qdevice
-        path: ./build
+        path: /opt/corosync-qdevice
