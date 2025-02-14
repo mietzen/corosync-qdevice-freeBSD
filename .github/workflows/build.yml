@@ -1,0 +1,23 @@
+name: Build corosync-qdevice
+
+on: [push]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y git bash autoconf automake gmake gcc pkgconf libtool nss corosync3
+        run: |
+          git clone https://github.com/corosync/corosync-qdevice.git
+          cd corosync-qdevice
+          git checkout v3.0.3
+          export MAKE=gmake
+          ./autogen.sh
+          ./configure --disable-systemd
+          gmake clean
+          gmake all
+          ls -al
