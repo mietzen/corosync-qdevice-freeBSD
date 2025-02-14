@@ -22,9 +22,10 @@ jobs:
           ./configure \
             --disable-systemd \
             --disable-qdevices \
-            --enable-install-qnetd-in-sbin \
-            --sbindir=/opt/corosync-qnetd/bin \
-            --docdir=/opt/corosync-qnetd
+            --bindir=/opt/corosync-qnetd/bin \
+            --docdir=/opt/corosync-qnetd \
+            --sysconfdir=/opt/corosync-qnetd \
+            --localstatedir=/opt/corosync-qnetd
           gmake clean
           gmake all
           gmake install DESTDIR=$(realpath ../build)
