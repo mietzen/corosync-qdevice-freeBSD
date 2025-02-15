@@ -28,6 +28,7 @@ jobs:
           gmake clean
           gmake all
           gmake install DESTDIR=$(realpath ../build)
+          rm -rf ../build/usr
     - uses: actions/upload-artifact@v4
       with:
         name: corosync-qdevice
