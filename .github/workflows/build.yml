@@ -24,7 +24,6 @@ jobs:
             --disable-qdevices \
             --bindir=/opt/corosync-qnetd/bin \
             --docdir=/opt/corosync-qnetd \
-            --sysconfdir=/opt/corosync-qnetd \
             --localstatedir=/opt/corosync-qnetd
           gmake clean
           gmake all
